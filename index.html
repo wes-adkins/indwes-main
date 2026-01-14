@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IWU Financial Aid | POC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root { --anchor-bg: #f3f3f3; }
+
+    /* Ensure anchor jumps don't hide headings behind sticky elements */
+    section { scroll-margin-top: 150px; }
+
+    /* Sticky anchor row styling */
+    .anchor-nav {
+      background: var(--anchor-bg);
+      border-bottom: 1px solid #d9d9d9;
+    }
+
+    /* ScrollSpy active link look */
+    .anchor-nav .nav-link {
+      color: #222;
+      font-weight: 500;
+      padding: .5rem 0;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+    .anchor-nav .nav-link.active {
+      border-bottom-color: #000;
+    }
+
+    /* Mobile-friendly sideways scroll for anchors */
+    .anchor-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+      position: relative;
+    }
+    .anchor-scroll::-webkit-scrollbar { display: none; }
+    .anchor-scroll .nav { flex-wrap: nowrap; }
+
+    /* Dropdown trigger layout (TOC + Related) */
+    .utility-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-weight: 500;
+    }
+
+    /* Keep dropdown buttons visually "link-like" inside grey bar */
+    .utility-btn {
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Top global header (approximation of IWU global brand row) */
+    .global-header {
+      background: #fff;
+      border-bottom: 1px solid #e6e6e6;
+    }
+    .global-header a { color: #111; text-decoration: none; font-weight: 500; }
+    .global-header a:hover { text-decoration: underline; }
+
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      min-height: 44px;
+    }
+    .logo-placeholder {
+      width: 170px;
+      height: 42px;
+      background: #d8d8d8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #333;
+      letter-spacing: .5px;
+    }
+
+    /* Demo content styling */
+    .hero {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 1rem;
+      padding: 2rem;
+    }
+
+    @media (max-width: 576px) {
+      .logo-placeholder { width: 140px; }
+    }
+  </style>
+</head>
+
+<!--
+  ScrollSpy requirements:
+  - data-bs-spy="scroll" on the scroll container (body here)
+  - data-bs-target points to the nav you want highlighted
+  - position: relative on the scroll container (body gets it by default)
+-->
+<body data-bs-spy="scroll" data-bs-target="#sectionNavLinks" data-bs-smooth-scroll="true" tabindex="0">
+
+  <!-- GLOBAL TOP ROW (Requested: about, admissions, logo, etc.) -->
+  <header class="global-header">
+    <div class="container py-3">
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <div class="logo-wrap">
+          <img src="images/iwu-horiz-logo.png" class="img-fluid" />
+        </div>
+
+        <nav aria-label="Global navigation" class="d-flex align-items-center gap-3 flex-wrap">
+          <a href="#" class="px-1">About</a>
+          <a href="#" class="px-1">Admissions</a>
+          <a href="#" class="px-1">Academics</a>
+          <a href="#" class="px-1">Campus Life</a>
+          <a href="#" class="px-1">Athletics</a>
+          <a href="#" class="px-1">Give</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- STICKY ON-PAGE ANCHOR ROW (#f3f3f3) -->
+  <nav id="sectionNav" class="anchor-nav sticky-top" aria-label="On-page navigation">
+    <div class="container">
+
+      <!-- DESKTOP/TABLET: keep horizontal anchors + add Related Pages dropdown on the right -->
+      <div class="d-none d-md-flex align-items-center justify-content-between gap-3 py-1">
+        <div id="anchorScroll" class="anchor-scroll flex-grow-1">
+          <ul id="sectionNavLinks" class="nav gap-4 py-2">
+            <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="#types">Types of Aid</a></li>
+            <li class="nav-item"><a class="nav-link" href="#apply">How to Apply</a></li>
+            <li class="nav-item"><a class="nav-link" href="#cost">Cost & Net Price</a></li>
+            <li class="nav-item"><a class="nav-link" href="#deadlines">Deadlines</a></li>
+            <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Related Pages (visible on large screens too) -->
+        <div class="dropdown flex-shrink-0">
+          <button id="relatedDropdownButton" class="utility-btn btn btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="utility-trigger">
+              <span>Related pages</span>
+              <i id="relatedIcon" class="fa-solid fa-plus" aria-hidden="true"></i>
+            </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="relatedDropdownButton" id="relatedDropdownMenu">
+            <li><a class="dropdown-item" href="#">Tuition & Costs</a></li>
+            <li><a class="dropdown-item" href="#">Scholarships</a></li>
+            <li><a class="dropdown-item" href="#">Payment Plans</a></li>
+            <li><a class="dropdown-item" href="#">Student Accounts</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MOBILE: Dropdown TOC + Related Pages dropdown -->
+      <div class="d-flex d-md-none align-items-center justify-content-between py-2">
+        <!-- On this page dropdown -->
+        <div class="dropdown">
+          <button id="tocDropdownButton" class="utility-btn btn btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="utility-trigger">
+              <span id="tocDropdownLabel">On this page</span>
+              <i id="tocIcon" class="fa-solid fa-plus" aria-hidden="true"></i>
+            </span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="tocDropdownButton" id="tocDropdownMenu">
+            <li><a class="dropdown-item" href="#overview">Overview</a></li>
+            <li><a class="dropdown-item" href="#types">Types of Aid</a></li>
+            <li><a class="dropdown-item" href="#apply">How to Apply</a></li>
+            <li><a class="dropdown-item" href="#cost">Cost & Net Price</a></li>
+            <li><a class="dropdown-item" href="#deadlines">Deadlines</a></li>
+            <li><a class="dropdown-item" href="#faq">FAQ</a></li>
+            <li><a class="dropdown-item" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Related pages dropdown (same pattern as TOC) -->
+        <div class="dropdown">
+          <button id="relatedDropdownButtonMobile" class="utility-btn btn btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="utility-trigger">
+              <span>Related pages</span>
+              <i id="relatedIconMobile" class="fa-solid fa-plus" aria-hidden="true"></i>
+            </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="relatedDropdownButtonMobile" id="relatedDropdownMenuMobile">
+            <li><a class="dropdown-item" href="#">Tuition & Costs</a></li>
+            <li><a class="dropdown-item" href="#">Scholarships</a></li>
+            <li><a class="dropdown-item" href="#">Payment Plans</a></li>
+            <li><a class="dropdown-item" href="#">Student Accounts</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="container my-5">
+
+    <div class="hero mb-5">
+      <h1 class="display-6 mb-3">Financial Aid at IWU</h1>
+      <p class="lead mb-0">
+        Proof of concept: global header + sticky on-page anchor row with ScrollSpy highlighting.
+      </p>
+    </div>
+
+    <section id="overview" class="mb-5">
+      <h2>Overview</h2>
+      <p>
+        Indiana Wesleyan University offers financial support through scholarships, grants, loans, and work opportunities.
+        This section would explain how aid works and what students can expect.
+      </p>
+      <p class="mb-0">
+        Add real IWU copy here when ready.
+      </p>
+    </section>
+
+    <section id="types" class="mb-5">
+      <h2>Types of Aid</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="p-3 border rounded-4 h-100">
+            <h3 class="h5">Scholarships</h3>
+            <p class="mb-0">Merit and program-based awards that reduce tuition cost.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="p-3 border rounded-4 h-100">
+            <h3 class="h5">Grants</h3>
+            <p class="mb-0">Need-based funding that typically doesn’t need repaid.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="p-3 border rounded-4 h-100">
+            <h3 class="h5">Loans</h3>
+            <p class="mb-0">Federal and private borrowing options with repayment terms.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="p-3 border rounded-4 h-100">
+            <h3 class="h5">Work Study</h3>
+            <p class="mb-0">Earn money through part-time work while enrolled.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="apply" class="mb-5">
+      <h2>How to Apply</h2>
+      <ol class="mb-3">
+        <li>Complete the FAFSA</li>
+        <li>Apply for admission to IWU</li>
+        <li>Submit any required documents</li>
+        <li>Review your award offer</li>
+      </ol>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-dark" href="#">Start FAFSA</a>
+        <a class="btn btn-outline-dark" href="#">Request Info</a>
+      </div>
+    </section>
+
+    <section id="cost" class="mb-5">
+      <h2>Cost & Net Price</h2>
+      <p>
+        Add a short explainer + link to net price calculator or cost breakdown.
+      </p>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="p-4 border rounded-4 h-100">
+            <h3 class="h5">What you pay</h3>
+            <p class="mb-0">Tuition + fees + housing/meal plan (if applicable) minus aid.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 border rounded-4 h-100">
+            <h3 class="h5">What you can control</h3>
+            <p class="mb-0">FAFSA timing, scholarships, living choices, and payment plans.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="deadlines" class="mb-5">
+      <h2>Deadlines</h2>
+      <p>
+        Show priority FAFSA and scholarship deadlines by term.
+      </p>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Term</th>
+              <th scope="col">Priority FAFSA</th>
+              <th scope="col">Scholarship Consideration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fall</td>
+              <td>March 1</td>
+              <td>April 1</td>
+            </tr>
+            <tr>
+              <td>Spring</td>
+              <td>October 1</td>
+              <td>November 1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <small class="text-muted">Dates are placeholders for the proof of concept.</small>
+    </section>
+
+    <section id="faq" class="mb-5">
+      <h2>FAQ</h2>
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" aria-expanded="true" aria-controls="a1">
+              When should I submit the FAFSA?
+            </button>
+          </h2>
+          <div id="a1" class="accordion-collapse collapse show" aria-labelledby="q1" data-bs-parent="#faqAcc">
+            <div class="accordion-body">
+              Submit as early as possible to maximize eligibility and processing time.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" aria-expanded="false" aria-controls="a2">
+              What happens after I apply?
+            </button>
+          </h2>
+          <div id="a2" class="accordion-collapse collapse" aria-labelledby="q2" data-bs-parent="#faqAcc">
+            <div class="accordion-body">
+              IWU reviews your info and sends an award offer with next steps.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="mb-5">
+      <h2>Contact</h2>
+      <p class="mb-2">Financial Aid team contact details go here.</p>
+      <p class="mb-0">
+        <strong>Email:</strong> finaid@indwes.edu<br />
+        <strong>Phone:</strong> 765-677-XXXX
+      </p>
+    </section>
+
+    <footer class="py-4 border-top">
+      <small class="text-muted">POC layout for IWU Financial Aid page • Bootstrap 5 + ScrollSpy</small>
+    </footer>
+
+  </main>
+
+  <!-- Bootstrap JS (required for ScrollSpy + accordion) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Bootstrap ScrollSpy init (helps in cases where content loads after paint)
+    const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+      target: '#sectionNavLinks',
+      rootMargin: '0px 0px -40%'
+    });
+
+    // Update mobile TOC label to current section title
+    function updateTocLabelFromActive() {
+      const active = document.querySelector('#sectionNavLinks .nav-link.active');
+      const tocLabel = document.getElementById('tocDropdownLabel');
+      if (active && tocLabel) tocLabel.textContent = active.textContent.trim();
+    }
+
+    document.addEventListener('activate.bs.scrollspy', updateTocLabelFromActive);
+    // Set initial label once on load
+    window.addEventListener('load', () => {
+      scrollSpy.refresh();
+      updateTocLabelFromActive();
+    });
+
+    // Toggle + / − icon helpers
+    function wirePlusMinus(buttonId, iconId) {
+      const btn = document.getElementById(buttonId);
+      const icon = document.getElementById(iconId);
+      if (!btn || !icon) return;
+
+      btn.addEventListener('show.bs.dropdown', () => {
+        icon.classList.remove('fa-plus');
+        icon.classList.add('fa-minus');
+      });
+      btn.addEventListener('hide.bs.dropdown', () => {
+        icon.classList.remove('fa-minus');
+        icon.classList.add('fa-plus');
+      });
+    }
+
+    // TOC icons
+    wirePlusMinus('tocDropdownButton', 'tocIcon');
+
+    // Related icons (desktop + mobile)
+    wirePlusMinus('relatedDropdownButton', 'relatedIcon');
+    wirePlusMinus('relatedDropdownButtonMobile', 'relatedIconMobile');
+
+    // Close dropdown after selecting an item (mobile-friendly)
+    document.querySelectorAll('#tocDropdownMenu a, #relatedDropdownMenu a, #relatedDropdownMenuMobile a').forEach(a => {
+      a.addEventListener('click', () => {
+        const toggle = bootstrap.Dropdown.getInstance(a.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]'));
+        if (toggle) toggle.hide();
+      });
+    });
+  </script>
+</body>
+</html>
