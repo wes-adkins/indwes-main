@@ -5,13 +5,18 @@
   <title>IWU Sticky Menu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- IWU Bootstrap reskin (CSS) -->
   <link href="https://www.indwes.edu/shared-resources/_files/css/bootstrap-reskin.min.css" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script crossorigin="anonymous" src="https://kit.fontawesome.com/3acd8de7af.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i" rel="stylesheet" type="text/css"/>
-<link href="https://cdn.fonts.net" rel="preconnect"/>
-<link href="https://cdn.fonts.net/kit/515a1de4-1b14-4f0e-af45-f6b16a50338c/515a1de4-1b14-4f0e-af45-f6b16a50338c.css" rel="stylesheet"/>
-  <!-- Bootstrap Icons (for search icon) -->
+
+  <!-- Font Awesome -->
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/3acd8de7af.js"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i" rel="stylesheet" type="text/css"/>
+  <link href="https://cdn.fonts.net" rel="preconnect"/>
+  <link href="https://cdn.fonts.net/kit/515a1de4-1b14-4f0e-af45-f6b16a50338c/515a1de4-1b14-4f0e-af45-f6b16a50338c.css" rel="stylesheet"/>
+
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
   <style>
@@ -28,7 +33,7 @@
       background: var(--anchor-bg);
       color: var(--anchor-fg);
       border-bottom: 0;
-      box-shadow: 0 6px 14px rgba(0,0,0,.18); /* soft shadow */
+      box-shadow: 0 6px 14px rgba(0,0,0,.18);
     }
 
     /* Link styles inside maroon bar (scope to bar controls, not dropdown menus) */
@@ -39,45 +44,41 @@
 
     /* Dropdown menu items should be readable (black text on white) */
     .anchor-nav .dropdown-menu { background: #fff; }
-    .anchor-nav .dropdown-menu .dropdown-item {
-      color: #111 !important;
-    }
+    .anchor-nav .dropdown-menu .dropdown-item { color: #111 !important; }
     .anchor-nav .dropdown-menu .dropdown-item:hover,
-    .anchor-nav .dropdown-menu .dropdown-item:focus {
-      color: #111 !important;
-    }
+    .anchor-nav .dropdown-menu .dropdown-item:focus { color: #111 !important; }
+
     .anchor-nav .nav-link {
       position: relative;
       color: var(--anchor-fg) !important;
       font-weight: 500;
-      padding: .65rem 0; /* keep links vertically centered */ /* room for top triangle + comfortable hit area */ /* extra top room for triangle */
+      padding: .65rem 0;
       border: 0;
       white-space: nowrap;
       opacity: .95;
     }
     .anchor-nav .nav-link:hover { opacity: 1; text-decoration: none; }
+    .anchor-nav .nav-link.active { opacity: 1; }
 
-    .anchor-nav .nav-link.active {
-      opacity: 1;
-    }
+    /* Top triangle */
     .anchor-nav .nav-link.active::before {
       content: "";
       position: absolute;
-      top: 0; /* sit right on the top edge */
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-top: 11px solid #fff; /* points DOWN from the top edge */ /* points DOWN from the top edge */
+      border-top: 11px solid #fff;
     }
 
-    /* Second triangle: maroon, hangs off the bottom edge */
+    /* Bottom triangle */
     .anchor-nav .nav-link.active::after {
       content: "";
       position: absolute;
-      bottom: -11px; /* hang off bottom */
+      bottom: -11px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
@@ -93,7 +94,7 @@
       overflow-y: visible; /* allow bottom triangle to show */
       -webkit-overflow-scrolling: touch;
       scroll-behavior: smooth;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
       position: relative;
     }
     .anchor-scroll::-webkit-scrollbar { display: none; }
@@ -115,30 +116,32 @@
       opacity: .95;
     }
 
-/* Sticky-only mini logo: always reserves space, fades in on scroll */
-.mini-logo{
-  display: inline-block;      /* reserve space */
-  height: 22px;
-  width: auto;
-  opacity: 0;                 /* hidden by default */
-  visibility: hidden;
-  transform: translateY(0);
-  transition: opacity .18s ease, visibility .18s ease;
-}
+    /* Sticky-only mini logo: reserves space, fades in on scroll (DESKTOP ONLY) */
+    .mini-logo{
+      display: inline-block;
+      height: 22px;
+      width: auto;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .18s ease, visibility .18s ease;
+    }
+    body.nav-stuck .mini-logo{
+      opacity: 1;
+      visibility: visible;
+    }
 
-/* when stuck, fade in (no layout shift) */
-body.nav-stuck .mini-logo{
-  opacity: 1;
-  visibility: visible;
-}
+    /* Remove mini logo on mobile */
+    @media (max-width: 767.98px){
+      .mini-logo{ display:none !important; }
+    }
 
-    /* Dropdown trigger layout (TOC + Related) */
+    /* Dropdown trigger layout */
     .utility-trigger {
       display: inline-flex;
       align-items: center;
       gap: .5rem;
       font-weight: 500;
-      font-size: 1rem; /* match nav links */
+      font-size: 1rem;
       white-space: nowrap;
     }
 
@@ -147,11 +150,11 @@ body.nav-stuck .mini-logo{
       border: 0;
       background: transparent;
       padding: 0;
-      font-size: 1rem; /* match nav links */
+      font-size: 1rem;
       line-height: 1;
     }
 
-    /* Top global header (approximation of IWU global brand row) */
+    /* Top global header */
     .global-header {
       background: #fff;
       border-bottom: 1px solid #e6e6e6;
@@ -165,17 +168,6 @@ body.nav-stuck .mini-logo{
       gap: .75rem;
       min-height: 44px;
     }
-    .logo-placeholder {
-      width: 170px;
-      height: 42px;
-      background: #d8d8d8;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #333;
-      letter-spacing: .5px;
-    }
 
     /* Demo content styling */
     .hero {
@@ -184,28 +176,17 @@ body.nav-stuck .mini-logo{
       border-radius: 1rem;
       padding: 2rem;
     }
-
-    @media (max-width: 576px) {
-      .logo-placeholder { width: 140px; }
-    }
   </style>
 </head>
 
-<!--
-  ScrollSpy requirements:
-  - data-bs-spy="scroll" on the scroll container (body here)
-  - data-bs-target points to the nav you want highlighted
-  - position: relative on the scroll container (body gets it by default)
--->
 <body data-bs-spy="scroll" data-bs-target="#sectionNavLinks" data-bs-smooth-scroll="true" tabindex="0">
 
-  <!-- GLOBAL TOP ROW (Requested: about, admissions, logo, etc.) -->
-  <!-- NOTE: I couldn't fetch the sandbox URL (502 via tool). This is a close POC structure you can swap with the exact markup. -->
+  <!-- GLOBAL TOP ROW -->
   <header class="global-header">
     <div class="container py-3">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div class="logo-wrap">
-          <img src="images/iwu-horiz-logo.png" class="img-fluid" />
+          <img src="images/iwu-horiz-logo.png" class="img-fluid" alt="Indiana Wesleyan University" />
         </div>
 
         <nav aria-label="Global navigation" class="d-flex align-items-center gap-3 flex-wrap">
@@ -220,35 +201,35 @@ body.nav-stuck .mini-logo{
     </div>
   </header>
 
-  <!-- Sentinel used to detect when the top logo/header is out of view -->
+  <!-- Sentinel used to detect when the top header is out of view -->
   <div id="headerSentinel" aria-hidden="true"></div>
 
-  <!-- STICKY ON-PAGE ANCHOR ROW (#f3f3f3) -->
+  <!-- STICKY ON-PAGE ANCHOR ROW -->
   <nav id="sectionNav" class="anchor-nav sticky-top" aria-label="On-page navigation">
     <div class="container">
 
-      <!-- DESKTOP/TABLET: "This Page" label + horizontal anchors + Related Pages dropdown on the right -->
+      <!-- DESKTOP/TABLET -->
       <div class="d-none d-md-flex align-items-center justify-content-between gap-4">
         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
           <div class="this-page-wrap">
-            <img class="mini-logo pe-4" alt="Indiana Wesleyan University" src="images/mark-logo.png" />
+            <img class="mini-logo" alt="Indiana Wesleyan University" src="images/mark-logo.png" />
             <span class="this-page-text"><strong>This Page:</strong></span>
           </div>
 
           <div id="anchorScroll" class="anchor-scroll flex-grow-1" style="min-width: 0;">
             <ul id="sectionNavLinks" class="nav gap-4">
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#overview">Overview</a></li>
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#types">Types of Aid</a></li>
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#apply">How to Apply</a></li>
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#cost">Cost &amp; Net Price</a></li>
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#deadlines">Deadlines</a></li>
-              <li class="nav-item mr-lg-3"><a class="nav-link" href="#faq">FAQ</a></li>
+              <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+              <li class="nav-item"><a class="nav-link" href="#types">Types of Aid</a></li>
+              <li class="nav-item"><a class="nav-link" href="#apply">How to Apply</a></li>
+              <li class="nav-item"><a class="nav-link" href="#cost">Cost &amp; Net Price</a></li>
+              <li class="nav-item"><a class="nav-link" href="#deadlines">Deadlines</a></li>
+              <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
               <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
           </div>
         </div>
 
-        <!-- Related Pages (visible on large screens too) -->
+        <!-- Related Pages -->
         <div class="dropdown flex-shrink-0">
           <button id="relatedDropdownButton" class="utility-btn btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="utility-trigger">
@@ -265,11 +246,11 @@ body.nav-stuck .mini-logo{
         </div>
       </div>
 
-      <!-- MOBILE: This Page label + On this page dropdown + Related Pages dropdown -->
+      <!-- MOBILE: left group stays left, Related stays far right -->
       <div class="d-flex d-md-none align-items-center gap-3">
         <div class="d-flex align-items-center gap-2" style="min-width: 0;">
           <div class="this-page-wrap" style="padding: 0;">
-            <img class="mini-logo pe-4" alt="Indiana Wesleyan University" src="https://www.indwes.edu/_img/header-footer/masterLogo-whiteOutline.svg" />
+            <!-- removed mini-logo on mobile -->
             <span class="this-page-text"><strong>This Page:</strong></span>
           </div>
 
@@ -293,7 +274,7 @@ body.nav-stuck .mini-logo{
           </div>
         </div>
 
-        <!-- Related pages dropdown (same pattern as TOC) -->
+        <!-- Related pages dropdown far right -->
         <div class="dropdown flex-shrink-0 ms-auto">
           <button id="relatedDropdownButtonMobile" class="utility-btn btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="utility-trigger">
@@ -313,9 +294,8 @@ body.nav-stuck .mini-logo{
     </div>
   </nav>
 
-  <img src="images/sample-banner.png" class="img-fluid" />
+  <img src="images/sample-banner.png" class="img-fluid" alt="" />
 
-  
   <main class="container my-5">
 
     <div class="hero mb-5">
@@ -327,13 +307,8 @@ body.nav-stuck .mini-logo{
 
     <section id="overview" class="mb-5">
       <h2>Overview</h2>
-      <p>
-        Indiana Wesleyan University offers financial support through scholarships, grants, loans, and work opportunities.
-        This section would explain how aid works and what students can expect.
-      </p>
-      <p class="mb-0">
-        Add real IWU copy here when ready.
-      </p>
+      <p>Indiana Wesleyan University offers financial support through scholarships, grants, loans, and work opportunities.</p>
+      <p class="mb-0">Add real IWU copy here when ready.</p>
     </section>
 
     <section id="types" class="mb-5">
@@ -381,10 +356,8 @@ body.nav-stuck .mini-logo{
     </section>
 
     <section id="cost" class="mb-5">
-      <h2>Cost & Net Price</h2>
-      <p>
-        Add a short explainer + link to net price calculator or cost breakdown.
-      </p>
+      <h2>Cost &amp; Net Price</h2>
+      <p>Add a short explainer + link to net price calculator or cost breakdown.</p>
       <div class="row g-4">
         <div class="col-lg-6">
           <div class="p-4 border rounded-4 h-100">
@@ -403,9 +376,7 @@ body.nav-stuck .mini-logo{
 
     <section id="deadlines" class="mb-5">
       <h2>Deadlines</h2>
-      <p>
-        Show priority FAFSA and scholarship deadlines by term.
-      </p>
+      <p>Show priority FAFSA and scholarship deadlines by term.</p>
       <div class="table-responsive">
         <table class="table align-middle">
           <thead>
@@ -477,78 +448,70 @@ body.nav-stuck .mini-logo{
 
   </main>
 
-  <!-- Bootstrap JS (required for ScrollSpy + accordion) -->
+  <!-- Bootstrap JS bundle (ONE time only) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Bootstrap ScrollSpy init (helps in cases where content loads after paint)
-    const scrollSpy = new bootstrap.ScrollSpy(document.body, {
-      target: '#sectionNavLinks',
-      rootMargin: '0px 0px -40%'
-    });
+    document.addEventListener('DOMContentLoaded', () => {
+      // Bootstrap ScrollSpy init
+      const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+        target: '#sectionNavLinks',
+        rootMargin: '0px 0px -40%'
+      });
 
-    // Update mobile TOC label to current section title
-    function updateTocLabelFromActive() {
-      const active = document.querySelector('#sectionNavLinks .nav-link.active');
-      const tocLabel = document.getElementById('tocDropdownLabel');
-      if (active && tocLabel) tocLabel.textContent = active.textContent.trim();
-    }
+      // Update mobile TOC label to current section title
+      function updateTocLabelFromActive() {
+        const active = document.querySelector('#sectionNavLinks .nav-link.active');
+        const tocLabel = document.getElementById('tocDropdownLabel');
+        if (active && tocLabel) tocLabel.textContent = active.textContent.trim();
+      }
+      document.addEventListener('activate.bs.scrollspy', updateTocLabelFromActive);
 
-    document.addEventListener('activate.bs.scrollspy', updateTocLabelFromActive);
+      // Detect when the global header is out of view; show mini logo in the sticky bar then (desktop only via CSS)
+      const sentinel = document.getElementById('headerSentinel');
+      if (sentinel && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          document.body.classList.toggle('nav-stuck', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        io.observe(sentinel);
+      }
 
-    // Detect when the global header is out of view; show mini logo in the sticky bar then.
-    const sentinel = document.getElementById('headerSentinel');
-    if (sentinel && 'IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        const entry = entries[0];
-        // If sentinel is not intersecting, we've scrolled past the top header.
-        document.body.classList.toggle('nav-stuck', !entry.isIntersecting);
-      }, { threshold: 0 });
-      io.observe(sentinel);
-    }
-
-    // Set initial label once on load
-    window.addEventListener('load', () => {
+      // Initial refresh/label
       scrollSpy.refresh();
       updateTocLabelFromActive();
-    });
 
-    // Toggle + / − icon helpers
-    function wirePlusMinus(buttonId, iconId) {
-      const btn = document.getElementById(buttonId);
-      const icon = document.getElementById(iconId);
-      if (!btn || !icon) return;
+      // Toggle + / − icon helpers
+      function wirePlusMinus(buttonId, iconId) {
+        const btn = document.getElementById(buttonId);
+        const icon = document.getElementById(iconId);
+        if (!btn || !icon) return;
 
-      btn.addEventListener('show.bs.dropdown', () => {
-        icon.classList.remove('fa-plus');
-        icon.classList.add('fa-minus');
-      });
-      btn.addEventListener('hide.bs.dropdown', () => {
-        icon.classList.remove('fa-minus');
-        icon.classList.add('fa-plus');
-      });
-    }
+        btn.addEventListener('show.bs.dropdown', () => {
+          icon.classList.remove('fa-plus');
+          icon.classList.add('fa-minus');
+        });
+        btn.addEventListener('hide.bs.dropdown', () => {
+          icon.classList.remove('fa-minus');
+          icon.classList.add('fa-plus');
+        });
+      }
 
-    // TOC icons
-    wirePlusMinus('tocDropdownButton', 'tocIcon');
+      // TOC icon
+      wirePlusMinus('tocDropdownButton', 'tocIcon');
 
-    // Related icons (desktop + mobile)
-    wirePlusMinus('relatedDropdownButton', 'relatedIcon');
-    wirePlusMinus('relatedDropdownButtonMobile', 'relatedIconMobile');
+      // Related icons (desktop + mobile)
+      wirePlusMinus('relatedDropdownButton', 'relatedIcon');
+      wirePlusMinus('relatedDropdownButtonMobile', 'relatedIconMobile');
 
-    // Close dropdown after selecting an item (mobile-friendly)
-    document.querySelectorAll('#tocDropdownMenu a, #relatedDropdownMenu a, #relatedDropdownMenuMobile a').forEach(a => {
-      a.addEventListener('click', () => {
-        const toggleEl = a.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]');
-        const toggle = toggleEl ? bootstrap.Dropdown.getInstance(toggleEl) : null;
-        if (toggle) toggle.hide();
+      // Close dropdown after selecting an item
+      document.querySelectorAll('#tocDropdownMenu a, #relatedDropdownMenu a, #relatedDropdownMenuMobile a').forEach(a => {
+        a.addEventListener('click', () => {
+          const toggleEl = a.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]');
+          const toggle = toggleEl ? bootstrap.Dropdown.getInstance(toggleEl) : null;
+          if (toggle) toggle.hide();
+        });
       });
     });
   </script>
 </body>
 </html>
-
-
-
-
-
