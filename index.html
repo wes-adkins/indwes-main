@@ -90,7 +90,7 @@
     /* Horizontal scroll for anchors */
     .anchor-scroll {
       overflow-x: auto;
-      overflow-y: hidden;
+      overflow-y: visible; /* allow bottom triangle to show */
       -webkit-overflow-scrolling: touch;
       scroll-behavior: smooth;
       scrollbar-width: none; /* Firefox */
@@ -115,13 +115,22 @@
       opacity: .95;
     }
 
-    /* Sticky-only mini logo (shown when top logo isn't visible) */
-    .mini-logo {
-      display: none;
-      height: 22px;
-      width: auto;
-    }
-    body.nav-stuck .mini-logo { display: inline-block; }
+/* Sticky-only mini logo: always reserves space, fades in on scroll */
+.mini-logo{
+  display: inline-block;      /* reserve space */
+  height: 22px;
+  width: auto;
+  opacity: 0;                 /* hidden by default */
+  visibility: hidden;
+  transform: translateY(0);
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+/* when stuck, fade in (no layout shift) */
+body.nav-stuck .mini-logo{
+  opacity: 1;
+  visibility: visible;
+}
 
     /* Dropdown trigger layout (TOC + Related) */
     .utility-trigger {
@@ -219,7 +228,7 @@
     <div class="container">
 
       <!-- DESKTOP/TABLET: "This Page" label + horizontal anchors + Related Pages dropdown on the right -->
-      <div class="d-none d-md-flex align-items-center justify-content-between gap-4 py-2">
+      <div class="d-none d-md-flex align-items-center justify-content-between gap-4">
         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
           <div class="this-page-wrap">
             <img class="mini-logo pe-4" alt="Indiana Wesleyan University" src="images/mark-logo.png" />
@@ -257,7 +266,7 @@
       </div>
 
       <!-- MOBILE: This Page label + On this page dropdown + Related Pages dropdown -->
-      <div class="d-flex d-md-none align-items-center justify-content-between gap-3 py-2">
+      <div class="d-flex d-md-none align-items-center justify-content-between gap-3">
         <div class="d-flex align-items-center gap-2" style="min-width: 0;">
           <div class="this-page-wrap" style="padding: 0;">
             <img class="mini-logo pe-4" alt="Indiana Wesleyan University" src="https://www.indwes.edu/_img/header-footer/masterLogo-whiteOutline.svg" />
@@ -538,4 +547,5 @@
   </script>
 </body>
 </html>
+
 
