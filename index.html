@@ -5,514 +5,224 @@
   <title>IWU Sticky Menu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- IWU Bootstrap reskin (CSS) -->
-  <link href="https://www.indwes.edu/shared-resources/_files/css/bootstrap-reskin.min.css" rel="stylesheet" type="text/css">
+  <!-- IWU Bootstrap reskin -->
+  <link href="https://www.indwes.edu/shared-resources/_files/css/bootstrap-reskin.min.css" rel="stylesheet">
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome Pro Kit -->
   <script crossorigin="anonymous" src="https://kit.fontawesome.com/3acd8de7af.js"></script>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i" rel="stylesheet" type="text/css"/>
-  <link href="https://cdn.fonts.net" rel="preconnect"/>
-  <link href="https://cdn.fonts.net/kit/515a1de4-1b14-4f0e-af45-f6b16a50338c/515a1de4-1b14-4f0e-af45-f6b16a50338c.css" rel="stylesheet"/>
-
   <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --anchor-bg: #a6192e; /* IWU maroon */
-      --anchor-fg: #ffffff;
+    section{ scroll-margin-top:75px; } /* top margin above each H2 on anchor click */
+
+    .anchor-nav{
+      background: #a6192e;
+      color: #fff;
+      box-shadow:0 6px 14px rgba(0,0,0,.18);
     }
 
-    /* Ensure anchor jumps don't hide headings behind sticky elements */
-    section { scroll-margin-top: 150px; }
-
-    /* Sticky anchor row styling */
-    .anchor-nav {
-      background: var(--anchor-bg);
-      color: var(--anchor-fg);
-      border-bottom: 0;
-      box-shadow: 0 6px 14px rgba(0,0,0,.18);
+    .anchor-nav .utility-btn{
+      color: #fff !important;
+      border:0;
+      background:transparent;
+      padding:0;
+      font-size:1rem;
     }
 
-    /* Link styles inside maroon bar (scope to bar controls, not dropdown menus) */
-    .anchor-nav .nav-link,
-    .anchor-nav .utility-btn {
-      color: var(--anchor-fg) !important;
+    .utility-trigger{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      font-weight:600;
+      white-space:nowrap;
     }
 
-    /* Dropdown menu items should be readable (black text on white) */
-    .anchor-nav .dropdown-menu { background: #fff; }
-    .anchor-nav .dropdown-menu .dropdown-item { color: #111 !important; }
-    .anchor-nav .dropdown-menu .dropdown-item:hover,
-    .anchor-nav .dropdown-menu .dropdown-item:focus { color: #111 !important; }
-
-    .anchor-nav .nav-link {
-      position: relative;
-      color: var(--anchor-fg) !important;
-      font-weight: 500;
-      padding: .65rem 0;
+    /* Drawer menu styling */
+    .drawer-menu{
+      background:#f2f2f2 !important;
+      padding:0;
+      border-radius:0;
       border: 0;
-      white-space: nowrap;
-      opacity: .95;
-    }
-    .anchor-nav .nav-link:hover { opacity: 1; text-decoration: none; }
-    .anchor-nav .nav-link.active { opacity: 1; }
-
-    /* Top triangle */
-    .anchor-nav .nav-link.active::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 11px solid #fff;
+      margin-top:.75rem;
+      min-width:280px;
+      max-width:340px;
     }
 
-    /* Bottom triangle */
-    .anchor-nav .nav-link.active::after {
-      content: "";
-      position: absolute;
-      bottom: -11px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 11px solid var(--anchor-bg);
+    /* Full width only on mobile */
+    @media (max-width:767.98px){
+      .drawer-menu{
+        min-width:100vw;
+        max-width:100vw;
+        border-left:none;
+        border-right:none;
+      }
     }
 
-    /* Horizontal scroll for anchors */
-    .anchor-scroll {
-      overflow-x: auto;
-      overflow-y: visible; /* allow bottom triangle to show */
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      position: relative;
-    }
-    .anchor-scroll::-webkit-scrollbar { display: none; }
-    .anchor-scroll .nav { flex-wrap: nowrap; }
-
-    /* "This Page" label area */
-    .this-page-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: .6rem;
-      flex-shrink: 0;
-      padding: .25rem 0;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .this-page-text {
-      font-size: 1rem;
-      line-height: 1;
-      opacity: .95;
+    .drawer-section-title{
+      padding:1rem 1.25rem .5rem;
+      font-size:.85rem;
+      font-weight:700;
+      letter-spacing:.03em;
+      color:#6b6b6b;
     }
 
-    /* Sticky-only mini logo: reserves space, fades in on scroll (DESKTOP ONLY) */
-    .mini-logo{
-      display: inline-block;
-      height: 22px;
-      width: auto;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity .18s ease, visibility .18s ease;
-    }
-    body.nav-stuck .mini-logo{
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* Remove mini logo on mobile */
-    @media (max-width: 767.98px){
-      .mini-logo{ display:none !important; }
+    .drawer-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 1.25rem;
+      font-size:1.05rem;
+      font-weight:600;
+      color:#111 !important;
+      text-decoration:none;
+      border-top:1px solid #e0e0e0;
+      background:transparent;
     }
 
-    /* Dropdown trigger layout */
-    .utility-trigger {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      font-weight: 500;
-      font-size: 1rem;
-      white-space: nowrap;
+    .drawer-link:hover{
+      background:#e8e8e8;
+      text-decoration:none;
     }
 
-    /* Make dropdown buttons look like links */
-    .utility-btn {
-      border: 0;
-      background: transparent;
-      padding: 0;
-      font-size: 1rem;
-      line-height: 1;
+    .drawer-link i{
+      color:#b5b5b5;
+      font-size:.95rem;
+      margin-left:1rem;
     }
 
-    /* Top global header */
-    .global-header {
-      background: #fff;
-      border-bottom: 1px solid #e6e6e6;
+    /* Rotate ONLY toggle chevrons (TOC + Related toggles) */
+    .toggle-chevron{
+      transition:transform 180ms ease;
+      transform-origin:50% 50%;
+      display:inline-block;
     }
-    .global-header a { color: #111; text-decoration: none; font-weight: 500; }
-    .global-header a:hover { text-decoration: underline; }
-
-    .logo-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem;
-      min-height: 44px;
-    }
-
-    /* Demo content styling */
-    .hero {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 1rem;
-      padding: 2rem;
+    .toggle-chevron.is-open{
+      transform:rotate(180deg);
     }
   </style>
 </head>
 
-<body data-bs-spy="scroll" data-bs-target="#sectionNavLinks" data-bs-smooth-scroll="true" tabindex="0">
+<body>
 
   <!-- GLOBAL TOP ROW -->
   <header class="global-header">
     <div class="container py-3">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div class="logo-wrap">
-          <img src="images/iwu-horiz-logo.png" class="img-fluid" alt="Indiana Wesleyan University" />
+          <img src="https://wes-adkins.github.io/indwes-main/images/iwu-horiz-logo.png" class="img-fluid" alt="Indiana Wesleyan University" />
         </div>
-
         <nav aria-label="Global navigation" class="d-flex align-items-center gap-3 flex-wrap">
           <a href="#" class="px-1">About</a>
           <a href="#" class="px-1">Pathways</a>
           <a href="#" class="px-1">Admissions</a>
           <a href="#" class="px-1">Academics</a>
           <a href="#" class="px-1">Resources</a>
-          <a href="#" class="px-1">Search <i class="bi bi-search ms-1" aria-hidden="true"></i></a>
+          <a href="#" class="px-1"><i class="bi bi-search ms-1" aria-hidden="true"></i></a>
         </nav>
       </div>
     </div>
   </header>
 
-  <!-- Sentinel used to detect when the top header is out of view -->
-  <div id="headerSentinel" aria-hidden="true"></div>
-
-  <!-- STICKY ON-PAGE ANCHOR ROW -->
-  <nav id="sectionNav" class="anchor-nav sticky-top" aria-label="On-page navigation">
+  <!-- Sticky Nav -->
+  <nav class="anchor-nav sticky-top py-2">
     <div class="container">
 
-      <!-- DESKTOP/TABLET -->
-      <div class="d-none d-md-flex align-items-center justify-content-between gap-4">
-        <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
-          <div class="this-page-wrap">
-            <img class="mini-logo" alt="Indiana Wesleyan University" src="images/mark-logo.png" />
-            <span class="this-page-text"><strong>This Page:</strong></span>
-          </div>
+      <!-- MOBILE ROW -->
+      <div class="d-flex justify-content-between align-items-center">
 
-          <div id="anchorScroll" class="anchor-scroll flex-grow-1" style="min-width: 0;">
-            <ul id="sectionNavLinks" class="nav gap-4">
-              <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
-              <li class="nav-item"><a class="nav-link" href="#types">Types of Aid</a></li>
-              <li class="nav-item"><a class="nav-link" href="#apply">How to Apply</a></li>
-              <li class="nav-item"><a class="nav-link" href="#cost">Cost &amp; Net Price</a></li>
-              <li class="nav-item"><a class="nav-link" href="#deadlines">Deadlines</a></li>
-              <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-              <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Related Pages -->
-        <div class="dropdown flex-shrink-0">
-          <button id="relatedDropdownButton" class="utility-btn btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- THIS PAGE DROPDOWN -->
+        <div class="dropdown">
+          <button id="tocDropdownButton" class="utility-btn btn" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="utility-trigger">
-              <span>Related pages</span>
-              <i id="relatedIcon" class="fa-solid fa-plus" aria-hidden="true"></i>
+              <span id="tocDropdownLabel">On this page</span>
+              <i id="tocIcon" class="fa-solid fa-chevron-down toggle-chevron" aria-hidden="true"></i>
             </span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="relatedDropdownButton" id="relatedDropdownMenu">
-            <li><a class="dropdown-item" href="#">Tuition &amp; Costs</a></li>
-            <li><a class="dropdown-item" href="#">Scholarships</a></li>
-            <li><a class="dropdown-item" href="#">Payment Plans</a></li>
-            <li><a class="dropdown-item" href="#">Student Accounts</a></li>
+
+          <ul class="dropdown-menu drawer-menu px-3" id="tocDropdownMenu" aria-labelledby="tocDropdownButton">
+            <li class="drawer-section-title">ON THIS PAGE</li>
+            <!-- NOTE: these should be chevron-rights, not down chevrons -->
+            <li><a class="drawer-link" href="#overview">Overview <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#types">Types of Aid <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#apply">How to Apply <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#cost">Cost <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#deadlines">Deadlines <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#faq">FAQ <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#contact">Contact <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a></li>
           </ul>
         </div>
-      </div>
 
-      <!-- MOBILE: left group stays left, Related stays far right -->
-      <div class="d-flex d-md-none align-items-center gap-3 py-2">
-        <div class="d-flex align-items-center gap-2" style="min-width: 0;">
-          <div class="this-page-wrap" style="padding: 0;">
-            <!-- removed mini-logo on mobile -->
-            <span class="this-page-text"><strong>This Page:</strong></span>
-          </div>
-
-          <!-- On this page dropdown -->
-          <div class="dropdown" style="min-width: 0;">
-            <button id="tocDropdownButton" class="utility-btn btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="utility-trigger" style="min-width: 0;">
-                <span id="tocDropdownLabel" style="display:inline-block; max-width: 52vw; overflow:hidden; text-overflow: ellipsis;">On this page</span>
-                <i id="tocIcon" class="fa-solid fa-plus" aria-hidden="true"></i>
-              </span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="tocDropdownButton" id="tocDropdownMenu">
-              <li><a class="dropdown-item" href="#overview">Overview</a></li>
-              <li><a class="dropdown-item" href="#types">Types of Aid</a></li>
-              <li><a class="dropdown-item" href="#apply">How to Apply</a></li>
-              <li><a class="dropdown-item" href="#cost">Cost &amp; Net Price</a></li>
-              <li><a class="dropdown-item" href="#deadlines">Deadlines</a></li>
-              <li><a class="dropdown-item" href="#faq">FAQ</a></li>
-              <li><a class="dropdown-item" href="#contact">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Related pages dropdown far right -->
-        <div class="dropdown w-50 text-right flex-shrink-0 ms-auto">
-          <button id="relatedDropdownButtonMobile" class="utility-btn btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- RELATED PAGES DROPDOWN -->
+        <div class="dropdown">
+          <button id="relatedDropdownButtonMobile" class="utility-btn btn" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="utility-trigger">
               <span>Related pages</span>
-              <i id="relatedIconMobile" class="fa-solid fa-plus" aria-hidden="true"></i>
+              <!-- Make it the same type of toggle chevron as TOC -->
+              <i id="relatedIconMobile" class="fa-solid fa-chevron-down toggle-chevron" aria-hidden="true"></i>
             </span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="relatedDropdownButtonMobile" id="relatedDropdownMenuMobile">
-            <li><a class="dropdown-item" href="#">Tuition &amp; Costs</a></li>
-            <li><a class="dropdown-item" href="#">Scholarships</a></li>
-            <li><a class="dropdown-item" href="#">Payment Plans</a></li>
-            <li><a class="dropdown-item" href="#">Student Accounts</a></li>
+
+          <ul class="dropdown-menu dropdown-menu-end drawer-menu px-3" aria-labelledby="relatedDropdownButtonMobile">
+            <li class="drawer-section-title">RELATED PAGES</li>
+            <li><a class="drawer-link" href="#">Tuition and Costs <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#">Scholarships <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#">Payment Plans <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
+            <li><a class="drawer-link" href="#">Student Accounts <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li>
           </ul>
         </div>
-      </div>
 
+      </div>
     </div>
   </nav>
 
-  <img src="images/sample-banner.png" class="img-fluid" alt="" />
-
+  <!-- PAGE CONTENT -->
   <main class="container my-5">
-
-    <div class="hero mb-5">
-      <h1 class="display-6 mb-3">Financial Aid at IWU</h1>
-      <p class="lead mb-0">
-        Proof of concept: global header + sticky on-page anchor row with ScrollSpy highlighting.
-      </p>
-    </div>
-
-    <section id="overview" class="mb-5">
-      <h2>Overview</h2>
-      <p>Indiana Wesleyan University offers financial support through scholarships, grants, loans, and work opportunities.</p>
-      <p class="mb-0">Add real IWU copy here when ready.</p>
-    </section>
-
-    <section id="types" class="mb-5">
-      <h2>Types of Aid</h2>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
-          <div class="p-3 border rounded-4 h-100">
-            <h3 class="h5">Scholarships</h3>
-            <p class="mb-0">Merit and program-based awards that reduce tuition cost.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="p-3 border rounded-4 h-100">
-            <h3 class="h5">Grants</h3>
-            <p class="mb-0">Need-based funding that typically doesn’t need repaid.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="p-3 border rounded-4 h-100">
-            <h3 class="h5">Loans</h3>
-            <p class="mb-0">Federal and private borrowing options with repayment terms.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="p-3 border rounded-4 h-100">
-            <h3 class="h5">Work Study</h3>
-            <p class="mb-0">Earn money through part-time work while enrolled.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="apply" class="mb-5">
-      <h2>How to Apply</h2>
-      <ol class="mb-3">
-        <li>Complete the FAFSA</li>
-        <li>Apply for admission to IWU</li>
-        <li>Submit any required documents</li>
-        <li>Review your award offer</li>
-      </ol>
-      <div class="d-flex gap-2 flex-wrap">
-        <a class="btn btn-dark" href="#">Start FAFSA</a>
-        <a class="btn btn-outline-dark" href="#">Request Info</a>
-      </div>
-    </section>
-
-    <section id="cost" class="mb-5">
-      <h2>Cost &amp; Net Price</h2>
-      <p>Add a short explainer + link to net price calculator or cost breakdown.</p>
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="p-4 border rounded-4 h-100">
-            <h3 class="h5">What you pay</h3>
-            <p class="mb-0">Tuition + fees + housing/meal plan (if applicable) minus aid.</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="p-4 border rounded-4 h-100">
-            <h3 class="h5">What you can control</h3>
-            <p class="mb-0">FAFSA timing, scholarships, living choices, and payment plans.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="deadlines" class="mb-5">
-      <h2>Deadlines</h2>
-      <p>Show priority FAFSA and scholarship deadlines by term.</p>
-      <div class="table-responsive">
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th scope="col">Term</th>
-              <th scope="col">Priority FAFSA</th>
-              <th scope="col">Scholarship Consideration</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Fall</td>
-              <td>March 1</td>
-              <td>April 1</td>
-            </tr>
-            <tr>
-              <td>Spring</td>
-              <td>October 1</td>
-              <td>November 1</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <small class="text-muted">Dates are placeholders for the proof of concept.</small>
-    </section>
-
-    <section id="faq" class="mb-5">
-      <h2>FAQ</h2>
-      <div class="accordion" id="faqAcc">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="q1">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" aria-expanded="true" aria-controls="a1">
-              When should I submit the FAFSA?
-            </button>
-          </h2>
-          <div id="a1" class="accordion-collapse collapse show" aria-labelledby="q1" data-bs-parent="#faqAcc">
-            <div class="accordion-body">
-              Submit as early as possible to maximize eligibility and processing time.
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="q2">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" aria-expanded="false" aria-controls="a2">
-              What happens after I apply?
-            </button>
-          </h2>
-          <div id="a2" class="accordion-collapse collapse" aria-labelledby="q2" data-bs-parent="#faqAcc">
-            <div class="accordion-body">
-              IWU reviews your info and sends an award offer with next steps.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="mb-5">
-      <h2>Contact</h2>
-      <p class="mb-2">Financial Aid team contact details go here.</p>
-      <p class="mb-0">
-        <strong>Email:</strong> finaid@indwes.edu<br />
-        <strong>Phone:</strong> 765-677-XXXX
-      </p>
-    </section>
-
-    <footer class="py-4 border-top">
-      <small class="text-muted">POC layout for IWU Financial Aid page • Bootstrap 5 + ScrollSpy</small>
-    </footer>
-
+    <section id="overview" style="height: 400px;"><h2>Overview</h2></section>
+    <section id="types" style="height: 400px;"><h2>Types of Aid</h2></section>
+    <section id="apply" style="height: 400px;"><h2>How to Apply</h2></section>
+    <section id="cost" style="height: 400px;"><h2>Cost</h2></section>
+    <section id="deadlines" style="height: 400px;"><h2>Deadlines</h2></section>
+    <section id="faq" style="height: 400px;"><h2>FAQ</h2></section>
+    <section id="contact" style="height: 400px;"><h2>Contact</h2></section>
   </main>
 
-  <!-- Bootstrap JS bundle (ONE time only) -->
+  <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Bootstrap ScrollSpy init
-      const scrollSpy = new bootstrap.ScrollSpy(document.body, {
-        target: '#sectionNavLinks',
-        rootMargin: '0px 0px -40%'
-      });
+    document.addEventListener("DOMContentLoaded", () => {
 
-      // Update mobile TOC label to current section title
-      function updateTocLabelFromActive() {
-        const active = document.querySelector('#sectionNavLinks .nav-link.active');
-        const tocLabel = document.getElementById('tocDropdownLabel');
-        if (active && tocLabel) tocLabel.textContent = active.textContent.trim();
-      }
-      document.addEventListener('activate.bs.scrollspy', updateTocLabelFromActive);
-
-      // Detect when the global header is out of view; show mini logo in the sticky bar then (desktop only via CSS)
-      const sentinel = document.getElementById('headerSentinel');
-      if (sentinel && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-          document.body.classList.toggle('nav-stuck', !entries[0].isIntersecting);
-        }, { threshold: 0 });
-        io.observe(sentinel);
-      }
-
-      // Initial refresh/label
-      scrollSpy.refresh();
-      updateTocLabelFromActive();
-
-      // Toggle + / − icon helpers
-      function wirePlusMinus(buttonId, iconId) {
+      /* Rotate toggle chevrons (TOC + Related) */
+      function wireChevronRotate(buttonId, iconId) {
         const btn = document.getElementById(buttonId);
         const icon = document.getElementById(iconId);
         if (!btn || !icon) return;
 
-        btn.addEventListener('show.bs.dropdown', () => {
-          icon.classList.remove('fa-plus');
-          icon.classList.add('fa-minus');
+        btn.addEventListener("show.bs.dropdown", () => {
+          icon.classList.add("is-open");
         });
-        btn.addEventListener('hide.bs.dropdown', () => {
-          icon.classList.remove('fa-minus');
-          icon.classList.add('fa-plus');
+
+        btn.addEventListener("hide.bs.dropdown", () => {
+          icon.classList.remove("is-open");
         });
       }
 
-      // TOC icon
-      wirePlusMinus('tocDropdownButton', 'tocIcon');
+      wireChevronRotate("tocDropdownButton", "tocIcon");
+      wireChevronRotate("relatedDropdownButtonMobile", "relatedIconMobile");
 
-      // Related icons (desktop + mobile)
-      wirePlusMinus('relatedDropdownButton', 'relatedIcon');
-      wirePlusMinus('relatedDropdownButtonMobile', 'relatedIconMobile');
-
-      // Close dropdown after selecting an item
-      document.querySelectorAll('#tocDropdownMenu a, #relatedDropdownMenu a, #relatedDropdownMenuMobile a').forEach(a => {
-        a.addEventListener('click', () => {
-          const toggleEl = a.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]');
-          const toggle = toggleEl ? bootstrap.Dropdown.getInstance(toggleEl) : null;
-          if (toggle) toggle.hide();
+      /* Close dropdown after clicking a link */
+      document.querySelectorAll(".drawer-menu a").forEach(link => {
+        link.addEventListener("click", () => {
+          const toggleEl = link.closest(".dropdown")?.querySelector("[data-bs-toggle='dropdown']");
+          const dropdown = toggleEl ? bootstrap.Dropdown.getInstance(toggleEl) : null;
+          if (dropdown) dropdown.hide();
         });
       });
+
     });
   </script>
+
 </body>
 </html>
-
